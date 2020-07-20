@@ -1,5 +1,6 @@
 package com.blog.blog.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -25,7 +26,21 @@ public class JwtProvider {
         User user = (User) authentication.getPrincipal();
         return Jwts.builder().
                 setSubject(user.getUsername()).
-                signWith(Keys.secretKeyFor(SignatureAlgorithm.HS512)).
+                signWith(key).
                 compact();
+    }
+
+    public boolean validateToken(String jwt){
+        Jwts.parser().setSigningKey(key).parseClaimsJws(jwt);
+        return true;
+    }
+
+    public String getUsernameFromJWT(String jwt) {
+        Claims claims = Jwts.parser()
+                        .setSigningKey(key)
+                        .parseClaimsJws(jwt)
+                        .getBody();
+
+        return claims.getSubject();
     }
 }

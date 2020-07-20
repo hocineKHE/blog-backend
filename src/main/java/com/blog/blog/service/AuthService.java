@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.blog.blog.models.User;
 import com.blog.blog.repository.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
 
@@ -42,5 +44,10 @@ public class AuthService {
 
     public String encodePassword(String password){
         return passwordEncoder.encode(password);
+    }
+
+    public Optional<org.springframework.security.core.userdetails.User> getCurrentUser() {
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       return Optional.of(user);
     }
 }
