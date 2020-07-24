@@ -1,5 +1,6 @@
 package com.blog.blog.service;
 
+import com.blog.blog.models.AuthenticationResponse;
 import com.blog.blog.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,13 +34,14 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public String login(User user){
+    public AuthenticationResponse login(User user){
         Authentication authentication =authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtProvider.generateToken(authentication);
+        String authenticationToken = jwtProvider.generateToken(authentication);
+        return new AuthenticationResponse(authenticationToken, user.getUsername());
     }
 
     public String encodePassword(String password){

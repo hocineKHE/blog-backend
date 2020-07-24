@@ -1,5 +1,6 @@
 package com.blog.blog.controllers;
 
+import com.blog.blog.models.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user){
-            return  authService.login(user);
+    public AuthenticationResponse login(@RequestBody User user){
+            return authService.login(user);
     }
 
 }
