@@ -11,14 +11,16 @@ import com.blog.blog.models.Post;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts/")
+@RequestMapping("/api/posts")
+
 public class PostController {
 
     @Autowired
     private PostService postService;
 
 
-    @PostMapping
+    @PostMapping("/")
+    @CrossOrigin("*")
     public ResponseEntity createPost(@RequestBody Post post){
         postService.createPost(post);
         return new ResponseEntity<>(HttpStatus.OK);
